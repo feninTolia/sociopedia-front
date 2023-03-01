@@ -35,14 +35,17 @@ const PostWidget = ({
   const main = palette.neutral.main;
 
   const patchLike = async () => {
-    const res = await fetch(`http://localhost:3001/posts/${postId}/like`, {
-      method: 'PATCH',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ userId: loggedInUserId }),
-    });
+    const res = await fetch(
+      `https://sociopedia-w9i9.onrender.com/posts/${postId}/like`,
+      {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId: loggedInUserId }),
+      }
+    );
 
     const updatedPost = await res.json();
     dispatch(setPost({ post: updatedPost }));
@@ -65,7 +68,7 @@ const PostWidget = ({
           height="auto"
           alt="post"
           style={{ borderRadius: '0.75rem', marginTop: '0.75rem' }}
-          src={`http://localhost:3001/assets/${picturePath}`}
+          src={`https://sociopedia-w9i9.onrender.com/assets/${picturePath}`}
         />
       )}
       <FlexBetween mt="0.25rem">

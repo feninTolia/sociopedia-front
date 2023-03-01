@@ -17,7 +17,7 @@ const AdvertWidget = () => {
         <Typography color={medium}>Create ad</Typography>
       </FlexBetween>
       <img
-        src="http://localhost:3001/assets/info4.jpg"
+        src="https://sociopedia-w9i9.onrender.com/assets/info4.jpg"
         alt="advert"
         width="100%"
         height="auto"
