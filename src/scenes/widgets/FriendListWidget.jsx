@@ -21,12 +21,15 @@ const FriendListWidget = ({ userId }) => {
     );
 
     const data = await res.json();
+
     dispatch(setFriends({ friends: data }));
   };
 
   useEffect(() => {
     getFriends();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (friends?.length === 0) return <div></div>;
 
   return (
     <WidgetWrapper>

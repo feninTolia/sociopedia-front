@@ -4,7 +4,7 @@ const UserImage = ({ image, size = '60px' }) => {
   return (
     <Box width={size} height={size}>
       <img
-        src={`https://sociopedia-w9i9.onrender.com/assets/${image}`}
+        src={image}
         alt="User"
         style={{ objectFit: 'cover', borderRadius: '50%' }}
         width={size}
