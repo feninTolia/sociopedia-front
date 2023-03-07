@@ -5,6 +5,7 @@ const initialState = {
   user: null,
   token: null,
   posts: [],
+  isLoading: false,
 };
 
 export const authSlice = createSlice({
@@ -39,10 +40,20 @@ export const authSlice = createSlice({
       });
       state.posts = updatedPosts;
     },
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
-export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost } =
-  authSlice.actions;
+export const {
+  setMode,
+  setLogin,
+  setLogout,
+  setFriends,
+  setPosts,
+  setPost,
+  setIsLoading,
+} = authSlice.actions;
 
 export default authSlice.reducer;

@@ -22,7 +22,7 @@ import UserImage from 'components/UserImage';
 import WidgetWrapper from 'components/WidgetWrapper';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPosts } from 'state';
+import { setPosts, setIsLoading } from 'state';
 import FlexBetween from 'components/FlexBetween';
 
 const MyPostWidget = ({ picturePath }) => {
@@ -33,11 +33,14 @@ const MyPostWidget = ({ picturePath }) => {
   const { palette } = useTheme();
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
+  const isLoading = useSelector((state) => state.isLoading);
   const isNonMobileScreens = useMediaQuery('(min-width: 1000px)');
   const mediumMain = palette.neutral.mediumMain;
   const medium = palette.neutral.medium;
 
   const handlePost = async () => {
+    dispatch(setIsLoading(true));
+
     const formData = new FormData();
     formData.append('userId', _id);
     formData.append('description', post);
@@ -50,7 +53,7 @@ const MyPostWidget = ({ picturePath }) => {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
       body: formData,
-    });
+    }).finally(() => dispatch(setIsLoading(false)));
 
     const posts = await response.json();
     dispatch(setPosts({ posts }));
@@ -156,7 +159,7 @@ const MyPostWidget = ({ picturePath }) => {
         )}
 
         <Button
-          disabled={!post}
+          disabled={!post || isLoading}
           onClick={handlePost}
           sx={{
             color: palette.background.alt,

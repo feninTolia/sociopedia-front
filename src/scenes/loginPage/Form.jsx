@@ -11,8 +11,8 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setLogin } from 'state';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLogin, setIsLoading } from 'state';
 import Dropzone from 'react-dropzone';
 import FlexBetween from 'components/FlexBetween';
 
@@ -54,8 +54,10 @@ const Form = () => {
   const isNonMobile = useMediaQuery('(min-width:600)');
   const isLogin = pageType === 'login';
   const isRegister = pageType === 'register';
+  const isLoading = useSelector((state) => state.isLoading);
 
   const register = async (values, onSubmitProps) => {
+    dispatch(setIsLoading(true));
     //   this allows to send form info with image
     const formData = new FormData();
     for (let value in values) {
@@ -66,7 +68,7 @@ const Form = () => {
     const savedUserResponse = await fetch(
       'https://sociopedia-w9i9.onrender.com/auth/register',
       { method: 'POST', body: formData }
-    );
+    ).finally(() => dispatch(setIsLoading(false)));
 
     const savedUser = await savedUserResponse.json();
     onSubmitProps.resetForm();
@@ -77,6 +79,7 @@ const Form = () => {
   };
 
   const login = async (values, onSubmitProps) => {
+    dispatch(setIsLoading(true));
     const loggedInResponse = await fetch(
       'https://sociopedia-w9i9.onrender.com/auth/login',
       {
@@ -84,10 +87,11 @@ const Form = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       }
-    );
+    ).finally(() => dispatch(setIsLoading(false)));
 
     const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
+
     if (loggedIn) {
       dispatch(
         setLogin({
@@ -242,6 +246,7 @@ const Form = () => {
           <Box>
             <Button
               fullWidth
+              disabled={isLoading}
               type="submit"
               sx={{
                 m: '2rem 0',
@@ -251,7 +256,7 @@ const Form = () => {
                 '&:hover': { color: palette.primary.main },
               }}
             >
-              {isLogin ? 'LOGIN' : 'REGISTER'}
+              {isLoading ? 'Loading...' : isLogin ? 'LOGIN' : 'REGISTER'}
             </Button>
             <Typography
               onClick={() => {
