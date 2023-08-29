@@ -141,10 +141,8 @@ const Form = () => {
                   onChange={handleChange}
                   value={values.firstName}
                   name="firstName"
-                  error={
-                    Boolean(touched.firstName) && Boolean(errors.firstName)
-                  }
-                  helperText={touched.firstName && errors.firstName}
+                  error={Boolean(errors.firstName)}
+                  helperText={errors.firstName}
                   sx={{ gridColumn: 'span 2' }}
                 />
 
@@ -154,8 +152,8 @@ const Form = () => {
                   onChange={handleChange}
                   value={values.lastName}
                   name="lastName"
-                  error={Boolean(touched.lastName) && Boolean(errors.lastName)}
-                  helperText={touched.lastName && errors.lastName}
+                  error={Boolean(errors.lastName)}
+                  helperText={errors.lastName}
                   sx={{ gridColumn: 'span 2' }}
                 />
 
@@ -165,8 +163,8 @@ const Form = () => {
                   onChange={handleChange}
                   value={values.location}
                   name="location"
-                  error={Boolean(touched.location) && Boolean(errors.location)}
-                  helperText={touched.location && errors.location}
+                  error={Boolean(errors.location)}
+                  helperText={errors.location}
                   sx={{ gridColumn: 'span 4' }}
                 />
 
@@ -176,16 +174,16 @@ const Form = () => {
                   onChange={handleChange}
                   value={values.occupation}
                   name="occupation"
-                  error={
-                    Boolean(touched.occupation) && Boolean(errors.occupation)
-                  }
-                  helperText={touched.occupation && errors.occupation}
+                  error={Boolean(errors.occupation)}
+                  helperText={errors.occupation}
                   sx={{ gridColumn: 'span 4' }}
                 />
 
                 <Box
                   gridColumn="span 4"
-                  border={`1px solid ${palette.neutral.medium}`}
+                  border={`1px solid ${
+                    errors.picture ? 'red' : palette.neutral.medium
+                  }`}
                   borderRadius="5px"
                   p="1rem"
                 >
@@ -246,7 +244,7 @@ const Form = () => {
           <Box>
             <Button
               fullWidth
-              disabled={isLoading}
+              // disabled={isLoading}
               type="submit"
               sx={{
                 m: '2rem 0',
